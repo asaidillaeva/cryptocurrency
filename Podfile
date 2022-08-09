@@ -7,4 +7,5 @@ target 'Cryptocurrency' do
 
   # Pods for Cryptocurrency
     pod 'SnapKit'
+    pod 'Kingfisher'
 end

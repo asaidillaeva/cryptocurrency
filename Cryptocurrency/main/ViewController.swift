@@ -72,10 +72,7 @@ extension ViewController: UITableViewDelegate {
         let vc = DetailsViewController()
         vc.model = viewModel.data[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
-
     }
-    
-    
 }
 
 extension ViewController: UITableViewDataSource {
@@ -85,7 +82,15 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CryptoCell.identifier, for: indexPath) as! CryptoCell
-//        viewModel.getCoinLogo(viewModel.data[indexPath.row])
+        cell.setLogo(logo: viewModel.data[indexPath.row].id!)
+//        viewModel.getCoinLogo(id: viewModel.data[indexPath.row].id!) { result in
+//            switch result {
+//            case .success(let data):
+//                cell.setLogo(logo: data)
+//            case .failure(_):
+//                cell.setLogo(logo: "error")
+//            }
+//        }
         cell.setData(viewModel.data[indexPath.row])
         return cell
     }

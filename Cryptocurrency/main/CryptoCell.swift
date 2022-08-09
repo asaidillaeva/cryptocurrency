@@ -7,12 +7,11 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 class CryptoCell: UITableViewCell {
     private let cryptoImageView: UIImageView = {
         let view = UIImageView()
-        view.layer.cornerRadius = 50
-        view.layer.masksToBounds = true
         view.contentMode = .scaleAspectFill
         return view
     }()
@@ -59,7 +58,6 @@ class CryptoCell: UITableViewCell {
     }
     
     func setData(_ data: Crypto) {
-        imageView?.image = .init(named: "placeHolder")
         symbolLabel.text = data.symbol
         nameLabel.text = data.name
         priceLabel.text = String(format: "%.2f",data.quote?.currency?.price ?? 0)
@@ -70,6 +68,12 @@ class CryptoCell: UITableViewCell {
         } else {
             changeLabel.textColor = .green
         }
+    }
+    
+    func setLogo(logo: Int) {
+        let path =  "https://s2.coinmarketcap.com/static/img/coins/64x64/\(logo).png"
+        cryptoImageView.kf.setImage(with: URL(string: path))
+        print(path)
     }
     
     private func setup(){
@@ -93,14 +97,14 @@ class CryptoCell: UITableViewCell {
             make.width.equalTo(40)
         }
         symbolLabel.snp.makeConstraints { make in
-            make.leading.equalTo(cryptoImageView.snp.trailing).offset(5)
+            make.leading.equalTo(cryptoImageView.snp.trailing).offset(20)
             make.top.equalToSuperview().inset(15)
         }
         
         nameLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(15)
             make.top.equalTo(symbolLabel.snp.bottom).offset(5)
-            make.leading.equalTo(cryptoImageView.snp.trailing).offset(5)
+            make.leading.equalTo(cryptoImageView.snp.trailing).offset(20)
         }
         
         priceLabel.snp.makeConstraints { make in

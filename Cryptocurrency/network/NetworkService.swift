@@ -15,7 +15,7 @@ class NetworkService {
         self.urlSession = urlSession
     }
     
-    func sendRequest<SuccessModel: Codable> (
+    func sendRequest<SuccessModel: Decodable> (
         router: BaseRouter,
         successModel: SuccessModel.Type,
         completion: @escaping (Result<SuccessModel, Error>) -> ()
@@ -42,8 +42,6 @@ class NetworkService {
             
             if let parsedModel = self.transform(data: data, model: successModel) {
                 DispatchQueue.main.async {
-                    
-                    
                     print("parsedModel is \(parsedModel)")
                     completion(.success(parsedModel))
                 }
@@ -53,11 +51,10 @@ class NetworkService {
         }.resume()
     }
     
-    private func transform<SuccessModel: Codable>(data: Data?, model: SuccessModel.Type) -> SuccessModel? {
+    private func transform<SuccessModel: Decodable>(data: Data?, model: SuccessModel.Type) -> SuccessModel? {
         var res: SuccessModel?
         do {
             try res =  JSONDecoder().decode(model, from: data!)
-        
         } catch let DecodingError.dataCorrupted(context) {
             print( "Data currupted \(context)")
         } catch let DecodingError.keyNotFound(key, context) {
